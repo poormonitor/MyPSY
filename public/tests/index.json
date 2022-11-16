@@ -1,0 +1,23 @@
+[
+    {
+        "abbr": "scl-90",
+        "name": "SCL-90 症状自评量表",
+        "description": "最常用的多维度评估量表"
+    },
+    {
+        "abbr": "sas",
+        "name": "宗氏焦虑自评量表",
+        "description": "测量焦虑状态轻重程度"
+    },
+    {
+        "abbr": "sds",
+        "name": "宗氏抑郁自评量表",
+        "description": "测量抑郁状态轻重程度"
+    }
+    ,
+    {
+        "abbr": "epq",
+        "name": "艾森克人格问卷",
+        "description": "评估受测者的人格特征"
+    }
+]
