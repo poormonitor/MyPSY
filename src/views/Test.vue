@@ -11,6 +11,7 @@ const answerSheet = useAnswerSheet()
 const loadReady = ref(false);
 const testContent = reactive({ data: { problems: [] } })
 const userOption = reactive([])
+const currentPage = ref(0)
 
 const fetchData = () => {
     userOption.length = 0
@@ -21,6 +22,7 @@ const fetchData = () => {
                 for (let i = 0; i < answerSheet.answer.length; i++) {
                     userOption[i + 1] = answerSheet.answer[i]
                 }
+                currentPage.value = testContent.data.problems.length - 1
             }
             loadReady.value = true;
         })
@@ -32,6 +34,7 @@ const fetchData = () => {
 }
 
 onActivated(() => {
+    currentPage.value = 0
     loadReady.value = false
     fetchData()
 })
@@ -40,6 +43,9 @@ const clickOption = (event) => {
     const order = event.target.dataset.order
     const option = event.target.dataset.option
     userOption[order] = option
+    if (currentPage.value + 1 != testContent.data.problems.length) {
+        setTimeout(() => { currentPage.value++ }, 200)
+    }
 }
 
 const submitTest = () => {
@@ -48,9 +54,7 @@ const submitTest = () => {
         if (!(i in userOption)) {
             swal("还有题目没完成", "问题 " + i + " 没有完成，请完成后提交", "info")
                 .then(() => {
-                    let targetElement = document.getElementById("problem-" + i)
-                    let placePixel = targetElement.offsetTop
-                    document.documentElement.scrollTop = placePixel - 20
+                    currentPage.value = i - 1
                 })
             return;
         }
@@ -58,6 +62,36 @@ const submitTest = () => {
 
     answerSheet.initAnswer(userOption, testContent.data)
     router.push({ name: "result" })
+}
+
+const nextProblem = () => {
+    if (currentPage.value + 1 != testContent.data.problems.length) {
+        currentPage.value++
+    }
+}
+
+const lastProblem = () => {
+    if (currentPage.value != 0) {
+        currentPage.value--
+    }
+}
+
+const lastUnfinishedProblem = () => {
+    for (var i = 1; i <= testContent.data.problems.length; i++) {
+        if (!(i in userOption)) {
+            currentPage.value = i - 1
+            return
+        }
+    }
+}
+
+const hasUnfinishedProblem = () => {
+    for (var i = 1; i <= testContent.data.problems.length; i++) {
+        if (!(i in userOption)) {
+            return true
+        }
+    }
+    return false
 }
 </script>
 
@@ -77,26 +111,44 @@ const submitTest = () => {
                     {{ testContent.data.direction }}
                 </div>
                 <div id="problems" class="mt-16">
-                    <div v-for="index in testContent.data.problems.length"
-                        class="backdrop-blur-xl bg-white/75 shadow-xl p-10 md:my-5 my-8 rounded-3xl"
-                        :id="'problem-' + index">
-                        <p class="font-mono">{{ index }}</p>
-                        <p class="text-2xl mt-2">{{ testContent.data.problems[index - 1] }}</p>
+                    <div class="backdrop-blur-xl bg-white/75 shadow-xl p-10 md:my-5 my-8 rounded-3xl"
+                        id="currentProblem">
+                        <p class="font-mono text-lg font-semibold">{{ currentPage + 1 }}</p>
+                        <p class="text-3xl mt-3 mb-8">{{ testContent.data.problems[currentPage] }}</p>
                         <div id="option"
                             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-x-8 gap-y-3 mt-6">
                             <div v-for="optionIndex in testContent.data.answers.length"
                                 class="text-center rounded-lg border-2 p-1 border-amber-500 transition ease-in-out text-lg select-none cursor-pointer hover:bg-orange-50"
-                                :class="{ 'optionActive': userOption[index] == optionIndex }" :data-order="index"
-                                :data-option="optionIndex" @click="clickOption">
+                                :class="{ 'optionActive': userOption[currentPage + 1] == optionIndex }"
+                                :data-order="currentPage + 1" :data-option="optionIndex" @click="clickOption">
                                 {{ testContent.data.answers[optionIndex - 1] }}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="my-12 flex space-x-2 justify-center">
+                <div class="mt-8 flex space-x-3 justify-center">
                     <button
-                        class="text-xl inline-block px-8 py-3 bg-yellow-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg transition duration-150 ease-in-out"
-                        type="button" @click="submitTest">
+                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg disabled:bg-zinc-800 transition duration-150 ease-in-out"
+                        type="button" @click="lastProblem" :disabled="currentPage == 0">
+                        上一题
+                    </button>
+                    <button
+                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg disabled:bg-zinc-800 transition duration-150 ease-in-out"
+                        type="button" @click="lastUnfinishedProblem" :disabled="!hasUnfinishedProblem()">
+                        未做
+                    </button>
+                    <button
+                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg disabled:bg-zinc-800 transition duration-150 ease-in-out"
+                        type="button" @click="nextProblem"
+                        :disabled="currentPage + 1 == testContent.data.problems.length">
+                        下一题
+                    </button>
+                </div>
+                <div class="mt-6 mb-12 flex space-x-2 justify-center">
+                    <button
+                        class="text-xl inline-block px-8 py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-800 transition duration-150 ease-in-out"
+                        type="button" @click="submitTest"
+                        :disabled="currentPage + 1 != testContent.data.problems.length">
                         提交
                     </button>
                 </div>
