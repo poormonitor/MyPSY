@@ -151,11 +151,18 @@ const hasUnfinishedProblem = computed(() => {
                         <p class="text-3xl mt-3 mb-8">{{ testContent.data.problems[currentPage] }}</p>
                         <div id="option"
                             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-x-8 gap-y-3 mt-6">
-                            <div v-for="optionIndex in testContent.data.answers.length"
+                            <div v-if="testContent.data.answers.length != testContent.data.problems.length"
+                                v-for="optionIndex in testContent.data.answers[0].length"
                                 class="text-center rounded-lg border-2 p-1 border-amber-500 transition ease-in-out text-lg select-none cursor-pointer hover:bg-orange-100"
                                 :class="{ 'optionActive': userOption[currentPage + 1] == optionIndex }"
                                 :data-order="currentPage + 1" :data-option="optionIndex" @click="clickOption">
-                                {{ testContent.data.answers[optionIndex - 1] }}
+                                {{ testContent.data.answers[0][optionIndex - 1] }}
+                            </div>
+                            <div v-else v-for="optionIndex in testContent.data.answers[currentPage].length"
+                                class="text-center rounded-lg border-2 p-1 border-amber-500 transition ease-in-out text-lg select-none cursor-pointer hover:bg-orange-100"
+                                :class="{ 'optionActive': userOption[currentPage + 1] == optionIndex }"
+                                :data-order="currentPage + 1" :data-option="optionIndex" @click="clickOption">
+                                {{ testContent.data.answers[currentPage][optionIndex - 1] }}
                             </div>
                         </div>
                     </div>

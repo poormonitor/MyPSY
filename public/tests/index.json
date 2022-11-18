@@ -13,11 +13,15 @@
         "abbr": "sds",
         "name": "宗氏抑郁自评量表",
         "description": "测量抑郁状态轻重程度"
-    }
-    ,
+    },
     {
         "abbr": "epq",
         "name": "艾森克人格问卷",
         "description": "评估受测者的人格特征"
+    },
+    {
+        "abbr": "ais",
+        "name": "阿森斯失眠量表",
+        "description": "睡眠障碍的自我评估"
     }
 ]
