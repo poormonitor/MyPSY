@@ -1,14 +1,16 @@
 <script setup>
-import { ref, reactive, onActivated } from "vue"
+import { ref, reactive, onActivated, computed } from "vue"
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios"
 import swal from "sweetalert"
+import "animate.css"
 import { useAnswerSheet } from "../stores/answer"
 const route = useRoute()
 const router = useRouter()
 const answerSheet = useAnswerSheet()
 
-const loadReady = ref(false);
+const loadReady = ref(false)
+const currentAnimation = ref(false)
 const testContent = reactive({ data: { problems: [] } })
 const userOption = reactive([])
 const currentPage = ref(0)
@@ -44,7 +46,7 @@ const clickOption = (event) => {
     const option = event.target.dataset.option
     userOption[order] = option
     if (currentPage.value + 1 != testContent.data.problems.length) {
-        setTimeout(() => { currentPage.value++ }, 200)
+        setTimeout(() => { nextProblem() }, 200)
     }
 }
 
@@ -65,34 +67,66 @@ const submitTest = () => {
 }
 
 const nextProblem = () => {
-    if (currentPage.value + 1 != testContent.data.problems.length) {
-        currentPage.value++
-    }
+    currentAnimation.value = "animate__fadeOutRight"
+    setTimeout(() => {
+        if (currentPage.value + 1 != testContent.data.problems.length) {
+            currentPage.value++
+        }
+        currentAnimation.value = "animate__fadeInLeft"
+        setTimeout(() => {
+            currentAnimation.value = ""
+        }, 200)
+    }, 200)
 }
 
 const lastProblem = () => {
-    if (currentPage.value != 0) {
-        currentPage.value--
-    }
+    currentAnimation.value = "animate__fadeOutLeft"
+    setTimeout(() => {
+        if (currentPage.value != 0) {
+            currentPage.value--
+        }
+        currentAnimation.value = "animate__fadeInRight"
+        setTimeout(() => {
+            currentAnimation.value = ""
+        }, 200)
+    }, 200)
 }
 
 const lastUnfinishedProblem = () => {
     for (var i = 1; i <= testContent.data.problems.length; i++) {
         if (!(i in userOption)) {
-            currentPage.value = i - 1
+            if (i - 1 > currentPage.value) {
+                currentAnimation.value = "animate__backOutLeft"
+                setTimeout(() => {
+                    currentPage.value = i - 1
+                    currentAnimation.value = "animate__backInRight"
+                    setTimeout(() => {
+                        currentAnimation.value = ""
+                    }, 200)
+                }, 200)
+            } else if (i - 1 < currentPage.value) {
+                currentAnimation.value = "animate__backOutRight"
+                setTimeout(() => {
+                    currentPage.value = i - 1
+                    currentAnimation.value = "animate__backInLeft"
+                    setTimeout(() => {
+                        currentAnimation.value = ""
+                    }, 200)
+                }, 200)
+            }
             return
         }
     }
 }
 
-const hasUnfinishedProblem = () => {
+const hasUnfinishedProblem = computed(() => {
     for (var i = 1; i <= testContent.data.problems.length; i++) {
         if (!(i in userOption)) {
             return true
         }
     }
     return false
-}
+})
 </script>
 
 <template>
@@ -111,14 +145,14 @@ const hasUnfinishedProblem = () => {
                     {{ testContent.data.direction }}
                 </div>
                 <div id="problems" class="mt-16">
-                    <div class="backdrop-blur-xl bg-white/75 shadow-xl p-10 md:my-5 my-8 rounded-3xl"
-                        id="currentProblem">
+                    <div class="animate__animated backdrop-blur-xl bg-white/75 shadow-xl p-10 md:my-5 my-8 rounded-3xl"
+                        :class="currentAnimation" id="currentProblem">
                         <p class="font-mono text-lg font-semibold">{{ currentPage + 1 }}</p>
                         <p class="text-3xl mt-3 mb-8">{{ testContent.data.problems[currentPage] }}</p>
                         <div id="option"
                             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-x-8 gap-y-3 mt-6">
                             <div v-for="optionIndex in testContent.data.answers.length"
-                                class="text-center rounded-lg border-2 p-1 border-amber-500 transition ease-in-out text-lg select-none cursor-pointer hover:bg-orange-50"
+                                class="text-center rounded-lg border-2 p-1 border-amber-500 transition ease-in-out text-lg select-none cursor-pointer hover:bg-orange-100"
                                 :class="{ 'optionActive': userOption[currentPage + 1] == optionIndex }"
                                 :data-order="currentPage + 1" :data-option="optionIndex" @click="clickOption">
                                 {{ testContent.data.answers[optionIndex - 1] }}
@@ -128,17 +162,17 @@ const hasUnfinishedProblem = () => {
                 </div>
                 <div class="mt-8 flex space-x-3 justify-center">
                     <button
-                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg disabled:bg-zinc-800 transition duration-150 ease-in-out"
+                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="lastProblem" :disabled="currentPage == 0">
                         上一题
                     </button>
                     <button
-                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg disabled:bg-zinc-800 transition duration-150 ease-in-out"
-                        type="button" @click="lastUnfinishedProblem" :disabled="!hasUnfinishedProblem()">
+                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        type="button" @click="lastUnfinishedProblem" :disabled="!hasUnfinishedProblem">
                         未做
                     </button>
                     <button
-                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg disabled:bg-zinc-800 transition duration-150 ease-in-out"
+                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="nextProblem"
                         :disabled="currentPage + 1 == testContent.data.problems.length">
                         下一题
@@ -146,7 +180,7 @@ const hasUnfinishedProblem = () => {
                 </div>
                 <div class="mt-6 mb-12 flex space-x-2 justify-center">
                     <button
-                        class="text-xl inline-block px-8 py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-800 transition duration-150 ease-in-out"
+                        class="text-xl inline-block px-8 py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="submitTest"
                         :disabled="currentPage + 1 != testContent.data.problems.length">
                         提交
@@ -156,3 +190,9 @@ const hasUnfinishedProblem = () => {
         </div>
     </div>
 </template>
+
+<style scoped>
+#currentProblem {
+    --animate-duration: 0.2s;
+}
+</style>
