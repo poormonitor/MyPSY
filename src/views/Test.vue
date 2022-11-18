@@ -167,19 +167,19 @@ const hasUnfinishedProblem = computed(() => {
                         </div>
                     </div>
                 </div>
-                <div class="mt-8 flex space-x-3 justify-center">
+                <div class="mt-8 flex space-x-1 md:space-x-3 justify-center">
                     <button
-                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        class="md:text-xl inline-block px-3 py-1 md:px-6 md:py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="lastProblem" :disabled="currentPage == 0">
                         上一题
                     </button>
                     <button
-                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        class="md:text-xl inline-block px-3 py-1 md:px-6 md:py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="lastUnfinishedProblem" :disabled="!hasUnfinishedProblem">
                         未做
                     </button>
                     <button
-                        class="text-xl inline-block px-6 py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        class="md:text-xl inline-block px-3 py-1 md:px-6 md:py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="nextProblem"
                         :disabled="currentPage + 1 == testContent.data.problems.length">
                         下一题
@@ -187,7 +187,7 @@ const hasUnfinishedProblem = computed(() => {
                 </div>
                 <div class="mt-6 mb-12 flex space-x-2 justify-center">
                     <button
-                        class="text-xl inline-block px-8 py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        class="text-lg md:text-xl inline-block px-6 py-2 md:px-8 md:py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="submitTest"
                         :disabled="currentPage + 1 != testContent.data.problems.length">
                         提交
