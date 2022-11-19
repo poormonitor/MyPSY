@@ -3,6 +3,7 @@ import { ref, reactive, onActivated } from "vue"
 import { useRoute, useRouter } from "vue-router";
 import swal from "sweetalert"
 import { useAnswerSheet } from "../stores/answer"
+import axios from "axios";
 const route = useRoute()
 const router = useRouter()
 const answerSheet = useAnswerSheet()
@@ -46,6 +47,11 @@ onActivated(() => {
     }
 
     testAnswered.value = true
+
+    axios.post(import.meta.env.VITE_API_URL + "/psytest.php", {
+        id: testContent.data.id,
+        answer: answerSheet.answer
+    })
 })
 
 </script>
@@ -89,7 +95,8 @@ onActivated(() => {
                             </div>
                         </div>
                     </div>
-                    <div class="backdrop-blur-xl bg-white/50 shadow-2xl p-8 my-12 rounded-3xl transition ease-in-out duration-300">
+                    <div
+                        class="backdrop-blur-xl bg-white/50 shadow-2xl p-8 my-12 rounded-3xl transition ease-in-out duration-300">
                         <span class="text-3xl font-bold">分析提示</span>
                         <p class="mt-6 text-xl whitespace-pre-line">{{ testContent.data.res.help }}</p>
                     </div>
