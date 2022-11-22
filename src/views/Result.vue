@@ -50,7 +50,8 @@ onActivated(() => {
 
     axios.post(import.meta.env.VITE_API_URL + "/psytest.php", {
         id: testContent.data.id,
-        answer: answerSheet.answer
+        answer: answerSheet.answer,
+        result: resultSheet
     })
 })
 

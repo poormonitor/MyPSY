@@ -147,7 +147,10 @@ const hasUnfinishedProblem = computed(() => {
                 <div id="problems" class="mt-16">
                     <div class="animate__animated backdrop-blur-xl bg-white/75 shadow-xl p-10 md:my-5 my-8 rounded-3xl"
                         :class="currentAnimation" id="currentProblem">
-                        <p class="font-mono text-lg font-semibold">{{ currentPage + 1 }}</p>
+                        <p class="font-mono">
+                            <span class="text-2xl font-bold">{{ currentPage + 1 }}</span>
+                            <span class="text-lg"> / {{ testContent.data.problems.length }}</span>
+                        </p>
                         <p class="text-3xl mt-3 mb-8">{{ testContent.data.problems[currentPage] }}</p>
                         <div id="option"
                             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-x-8 gap-y-3 mt-6">
@@ -189,7 +192,7 @@ const hasUnfinishedProblem = computed(() => {
                     <button
                         class="text-lg md:text-xl inline-block px-6 py-2 md:px-8 md:py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="submitTest"
-                        :disabled="currentPage + 1 != testContent.data.problems.length">
+                        :disabled="hasUnfinishedProblem">
                         提交
                     </button>
                 </div>
