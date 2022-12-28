@@ -1,3 +1,3 @@
-# psyTest
+# MyPSY
 
-psyTest 心理测评系统
+MyPSY 心理测评系统

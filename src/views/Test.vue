@@ -131,38 +131,38 @@ const hasUnfinishedProblem = computed(() => {
 
 <template>
     <div class="bg-gradient-to-tl from-orange-200 to-yellow-50 min-h-full overflow-hidden">
-        <div class="lg:my-20 lg:mx-24 md:my-14 md:mx-16 my-12 mx-10">
+        <div class="lg:mx-24 mx-10">
             <div id="testSheet" v-if="loadReady">
-                <div id="title" class="mt-16">
+                <div id="title" class="mt-10 lg:mt-16">
                     <div class="tracking-wide">
-                        <router-link to="/" class="text-sky-800 hover:text-sky-900 transition ease-in-out">返回首页
+                        <router-link to="/" class="text-sky-800 hover:text-sky-900 transition ease-in-out text-sm lg:text-base">返回首页
                         </router-link>
                     </div>
-                    <div class="text-3xl my-3 tracking-widest text-amber-800">您正在完成</div>
-                    <div class="text-6xl my-3 font-bold">{{ testContent.data.name }}</div>
+                    <div class="text-xl lg:text-3xl my-1 lg:my-3 tracking-widest text-amber-800">您正在完成</div>
+                    <div class="text-4xl lg:text-6xl my-1 lg:my-3 font-bold">{{ testContent.data.name }}</div>
                 </div>
-                <div id="direction" class="mt-12 text-xl">
+                <div id="direction" class="mt-4 lg:mt-6 text-sm lg:text-lg">
                     {{ testContent.data.direction }}
                 </div>
-                <div id="problems" class="mt-16">
-                    <div class="animate__animated backdrop-blur-xl bg-white/75 shadow-xl p-10 md:my-5 my-8 rounded-3xl"
+                <div id="problems" class="mt-8 lg:mt-10">
+                    <div class="animate__animated backdrop-blur-xl bg-white/75 shadow-xl px-10 py-8 lg:py-10 my-4 lg:my-8 rounded-3xl"
                         :class="currentAnimation" id="currentProblem">
                         <p class="font-mono">
-                            <span class="text-2xl font-bold">{{ currentPage + 1 }}</span>
-                            <span class="text-lg"> / {{ testContent.data.problems.length }}</span>
+                            <span class="lg:text-2xl font-bold">{{ currentPage + 1 }}</span>
+                            <span class="text-sm lg:text-lg"> / {{ testContent.data.problems.length }}</span>
                         </p>
-                        <p class="text-3xl mt-3 mb-8">{{ testContent.data.problems[currentPage] }}</p>
+                        <p class="text-xl lg:text-3xl mt-3 lg:mb-8">{{ testContent.data.problems[currentPage] }}</p>
                         <div id="option"
-                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-x-8 gap-y-3 mt-6">
+                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-x-8 gap-y-2 lg:gap-y-3 mt-4 lg:mt-6">
                             <div v-if="testContent.data.answers.length != testContent.data.problems.length"
                                 v-for="optionIndex in testContent.data.answers[0].length"
-                                class="text-center rounded-lg border-2 p-1 border-amber-500 transition ease-in-out text-lg select-none cursor-pointer hover:bg-orange-100"
+                                class="text-sm lg:text-lg text-center rounded-lg border-2 p-1 border-amber-500 transition ease-in-out select-none cursor-pointer hover:bg-orange-100"
                                 :class="{ 'optionActive': userOption[currentPage + 1] == optionIndex }"
                                 :data-order="currentPage + 1" :data-option="optionIndex" @click="clickOption">
                                 {{ testContent.data.answers[0][optionIndex - 1] }}
                             </div>
                             <div v-else v-for="optionIndex in testContent.data.answers[currentPage].length"
-                                class="text-center rounded-lg border-2 p-1 border-amber-500 transition ease-in-out text-lg select-none cursor-pointer hover:bg-orange-100"
+                                class="text-sm lg:text-lg text-center rounded-lg border-2 p-1 border-amber-500 transition ease-in-out select-none cursor-pointer hover:bg-orange-100"
                                 :class="{ 'optionActive': userOption[currentPage + 1] == optionIndex }"
                                 :data-order="currentPage + 1" :data-option="optionIndex" @click="clickOption">
                                 {{ testContent.data.answers[currentPage][optionIndex - 1] }}
@@ -170,27 +170,27 @@ const hasUnfinishedProblem = computed(() => {
                         </div>
                     </div>
                 </div>
-                <div class="mt-8 flex space-x-1 md:space-x-3 justify-center">
+                <div class="mt-4 lg:mt-8 flex space-x-1 lg:space-x-3 justify-center">
                     <button
-                        class="md:text-xl inline-block px-3 py-1 md:px-6 md:py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        class="text-sm lg:text-xl inline-block px-3 py-1 lg:px-6 lg:py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="lastProblem" :disabled="currentPage == 0">
                         上一题
                     </button>
                     <button
-                        class="md:text-xl inline-block px-3 py-1 md:px-6 md:py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        class="text-sm lg:text-xl inline-block px-3 py-1 lg:px-6 lg:py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="lastUnfinishedProblem" :disabled="!hasUnfinishedProblem">
                         未做
                     </button>
                     <button
-                        class="md:text-xl inline-block px-3 py-1 md:px-6 md:py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        class="text-sm lg:text-xl inline-block px-3 py-1 lg:px-6 lg:py-2 bg-orange-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-orange-600 hover:shadow-lg focus:ring-offset-1 focus:ring-2 focus:ring-orange-500 disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="nextProblem"
                         :disabled="currentPage + 1 == testContent.data.problems.length">
                         下一题
                     </button>
                 </div>
-                <div class="mt-6 mb-12 flex space-x-2 justify-center">
+                <div class="mt-2 lg:mt-4 lg:mb-8 flex space-x-2 justify-center">
                     <button
-                        class="text-lg md:text-xl inline-block px-6 py-2 md:px-8 md:py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        class="text-md lg:text-xl inline-block px-6 py-2 lg:px-8 lg:py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button" @click="submitTest"
                         :disabled="hasUnfinishedProblem">
                         提交

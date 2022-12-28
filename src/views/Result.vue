@@ -48,48 +48,50 @@ onActivated(() => {
 
     testAnswered.value = true
 
-    axios.post(import.meta.env.VITE_API_URL + "/psytest.php", {
-        id: testContent.data.id,
-        answer: answerSheet.answer,
-        result: resultSheet
-    })
+    if (import.meta.env.VITE_API_URL) {
+        axios.post(import.meta.env.VITE_API_URL + "/psytest.php", {
+            id: testContent.data.id,
+            answer: answerSheet.answer,
+            result: resultSheet
+        })
+    }
 })
 
 </script>
 
 <template>
     <div class="bg-gradient-to-tl from-pink-200 to-rose-50 min-h-full overflow-hidden">
-        <div class="lg:my-20 lg:mx-24 md:my-14 md:mx-16 my-12 mx-10">
+        <div class="lg:mx-24 md:mx-16 mx-10">
             <div class="content" v-if="testAnswered">
-                <div id="title" class="mt-16">
+                <div id="title" class="mt-10 lg:mt-16">
                     <div class="tracking-wide">
                         <router-link to="/" class="text-sky-800 hover:text-sky-900 transition ease-in-out">返回首页
                         </router-link>
                     </div>
-                    <div class="text-3xl my-3 tracking-widest text-rose-800">您完成了</div>
-                    <div class="text-6xl my-3 font-bold">{{ testContent.data.name }}</div>
+                    <div class="text-xl lg:text-3xl my-1 lg:my-3 tracking-widest text-rose-800">您完成了</div>
+                    <div class="text-4xl lg:text-6xl my-1 lg:my-3 font-bold">{{ testContent.data.name }}</div>
                 </div>
-                <div id="score" class="my-16">
+                <div id="score" class="mt-8 lg:mt-10">
                     <div v-for="gp in testContent.data.res.group.list.length"
-                        class="backdrop-blur-xl bg-white/50 shadow-2xl p-8 my-12 rounded-3xl transition ease-in-out duration-300">
-                        <span class="text-3xl font-bold">{{ testContent.data.res.group.list[gp - 1] }}</span>
-                        <div class="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-4 gap-x-8 gap-y-4 mt-10 mb-4 mx-6">
+                        class="backdrop-blur-xl bg-white/50 shadow-2xl p-8 my-6 lg:my-12 rounded-3xl transition ease-in-out duration-300">
+                        <span class="text-xl lg:text-3xl font-bold">{{ testContent.data.res.group.list[gp - 1] }}</span>
+                        <div class="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-4 gap-x-8 lg:gap-y-4 mt-4 lg:mt-8 lg:mb-4 md:mx-3 lg:mx-6">
                             <div v-for="rs in testContent.data.res.group.res[gp - 1].length"
-                                class="backdrop-blur-xl shadow-xl p-8 my-3 rounded-3xl transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300"
+                                class="backdrop-blur-xl shadow-xl p-4 lg:p-8 my-1.5 lg:my-3 rounded-3xl transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300"
                                 :class="{
                                     'bg-gradient-to-r from-red-600 to-orange-600 text-white': dangerList[testContent.data.res.group.res[gp - 1][rs - 1]],
                                     'bg-gradient-to-r from-green-600 to-green-500 text-white': !dangerList[testContent.data.res.group.res[gp - 1][rs - 1]]
                                 }">
-                                <p class="text-lg">
+                                <p class="lg:text-lg">
                                     {{
-                                            testContent.data.res.list[testContent.data.res.group.res[gp - 1][rs - 1]]
+                                    testContent.data.res.list[testContent.data.res.group.res[gp - 1][rs - 1]]
                                     }}
                                 </p>
                                 <div>
-                                    <span class="text-2xl font-semibold">
+                                    <span class="text-lg lg:text-2xl font-semibold">
                                         {{ resultSheet[testContent.data.res.group.res[gp - 1][rs - 1]] }}
                                     </span>
-                                    <span class="text-xl">
+                                    <span class="text-md lg:text-xl">
                                         / {{ sumSheet[testContent.data.res.group.res[gp - 1][rs - 1]] }}
                                     </span>
                                 </div>
@@ -97,9 +99,9 @@ onActivated(() => {
                         </div>
                     </div>
                     <div
-                        class="backdrop-blur-xl bg-white/50 shadow-2xl p-8 my-12 rounded-3xl transition ease-in-out duration-300">
-                        <span class="text-3xl font-bold">分析提示</span>
-                        <p class="mt-6 text-xl whitespace-pre-line">{{ testContent.data.res.help }}</p>
+                        class="backdrop-blur-xl bg-white/50 shadow-2xl p-8 my-6 lg:my-12 rounded-3xl transition ease-in-out duration-300">
+                        <span class="text-xl lg:text-3xl font-bold">分析提示</span>
+                        <p class="mt-2 lg:mt-6 text-base lg:text-lg whitespace-pre-line">{{ testContent.data.res.help }}</p>
                     </div>
                 </div>
             </div>
