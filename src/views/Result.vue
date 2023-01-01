@@ -1,10 +1,10 @@
 <script setup>
 import { ref, reactive, onActivated } from "vue"
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import swal from "sweetalert"
 import { useAnswerSheet } from "../stores/answer"
 import axios from "axios";
-const route = useRoute()
+
 const router = useRouter()
 const answerSheet = useAnswerSheet()
 const resultSheet = reactive([])

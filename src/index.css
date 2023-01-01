@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .optionActive {
-    @apply bg-gradient-to-br from-orange-400 to-amber-600 text-white
+    @apply bg-gradient-to-br from-orange-400 to-amber-600 text-white;
 }
