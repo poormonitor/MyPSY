@@ -23,15 +23,15 @@ const gotoTest = (event) => {
 
 <template>
     <div
-        class="bg-gradient-to-br from-cyan-50 to-blue-200 min-h-full overflow-hidden"
+        class="bg-gradient-to-br from-cyan-50 to-blue-200 min-h-full overflow-hidden pb-10"
     >
-        <div class="lg:my-20 lg:mx-24 md:my-14 md:mx-16 my-12 mx-10">
+        <div class="lg:my-20 lg:mx-40 md:my-14 md:mx-24 my-12 mx-10">
             <div id="title" class="mb-6 md:mb-10 lg:mb-16">
                 <div class="text-2xl lg:text-4xl my-3 tracking-widest">
                     欢迎来到
                 </div>
                 <div
-                    class="text-4xl lg:text-6xl my-3 leading-tight font-semibold"
+                    class="text-3xl lg:text-5xl my-3 leading-tight font-medium"
                 >
                     MyPSY 心理评测系统
                 </div>

@@ -143,9 +143,9 @@ const hasUnfinishedProblem = computed(() => {
 
 <template>
     <div
-        class="bg-gradient-to-tl from-orange-200 to-yellow-50 min-h-full overflow-hidden"
+        class="bg-gradient-to-tl from-orange-200 to-yellow-50 min-h-full overflow-hidden pb-10"
     >
-        <div class="lg:mx-24 mx-10">
+        <div class="xl:mx-40 lg:mx-24 md:mx-16 mx-10">
             <div id="testSheet" v-if="loadReady">
                 <div id="title" class="mt-10 lg:mt-16">
                     <div class="tracking-wide">
@@ -160,7 +160,7 @@ const hasUnfinishedProblem = computed(() => {
                     >
                         您正在完成
                     </div>
-                    <div class="text-4xl lg:text-6xl my-1 lg:my-3 font-bold">
+                    <div class="text-3xl lg:text-5xl my-1 lg:my-3 font-medium">
                         {{ testContent.data.name }}
                     </div>
                 </div>
@@ -174,7 +174,7 @@ const hasUnfinishedProblem = computed(() => {
                         id="currentProblem"
                     >
                         <p class="font-mono">
-                            <span class="lg:text-2xl font-bold">{{
+                            <span class="lg:text-2xl font-medium">{{
                                 currentPage + 1
                             }}</span>
                             <span class="text-sm lg:text-lg">
@@ -265,7 +265,7 @@ const hasUnfinishedProblem = computed(() => {
                 </div>
                 <div class="mt-2 lg:mt-4 lg:mb-8 flex space-x-2 justify-center">
                     <button
-                        class="text-md lg:text-xl inline-block px-6 py-2 lg:px-8 lg:py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-600 transition duration-150 ease-in-out"
+                        class="lg:text-lg inline-block px-6 py-2 lg:px-8 lg:py-3 bg-lime-500 text-white font-medium leading-tight uppercase rounded-2xl shadow-md hover:bg-lime-600 hover:shadow-lg focus:bg-lime-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-lime-700 active:shadow-lg disabled:bg-zinc-600 transition duration-150 ease-in-out"
                         type="button"
                         @click="submitTest"
                         :disabled="hasUnfinishedProblem"
