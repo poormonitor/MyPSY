@@ -79,12 +79,12 @@ const submitTest = () => {
 };
 
 const nextProblem = () => {
-    currentAnimation.value = "animate__fadeOutRight";
+    currentAnimation.value = "animate__fadeOutLeft";
     setTimeout(() => {
         if (currentPage.value + 1 != testContent.data.problems.length) {
             currentPage.value++;
         }
-        currentAnimation.value = "animate__fadeInLeft";
+        currentAnimation.value = "animate__fadeInRight";
         setTimeout(() => {
             currentAnimation.value = "";
         }, 200);
@@ -92,12 +92,12 @@ const nextProblem = () => {
 };
 
 const lastProblem = () => {
-    currentAnimation.value = "animate__fadeOutLeft";
+    currentAnimation.value = "animate__fadeOutRight";
     setTimeout(() => {
         if (currentPage.value != 0) {
             currentPage.value--;
         }
-        currentAnimation.value = "animate__fadeInRight";
+        currentAnimation.value = "animate__fadeInLeft";
         setTimeout(() => {
             currentAnimation.value = "";
         }, 200);
